@@ -1,0 +1,40 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-box {
+  width: 350px;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+}
+
+#background {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background-color: #e1be8d;
+}
+
+label {
+  color: #e1be8d;
+}
+
+h2 {
+  color: #e1be8d;
+}
+
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+a {
+  color: #e1be8d;
+}
