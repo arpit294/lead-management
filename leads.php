@@ -24,9 +24,9 @@ $total_pages = ceil($total_count / $limitPerPage);
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
 // offset
-$offset = (($page - 1) * $limitPerPage) + 1;
+$offset = ($page - 1) * $limitPerPage;
 
-$query = "SELECT * FROM leads WHERE user_id='$uid'  limit 10 offset $offset";
+$query = "SELECT * FROM leads WHERE user_id='$uid' LIMIT $limitPerPage OFFSET $offset";
 
 $result = mysqli_query($conn, $query);
 
@@ -45,37 +45,38 @@ if (isset($_POST['status']) && isset($_POST['id'])) {
 }
 
 //for source and status section
-
 if (isset($_GET['source']) || isset($_GET['status']) || isset($_GET['search'])) {
 
-
-    $source = $_GET['source'];
-    $status = $_GET['status'];
-    $search = '%' . $_GET['search'] . '%';
-    $offset = (($page - 1) * $limitPerPage) + 1;
-
     $query = "SELECT * FROM leads WHERE user_id='$uid'";
+    $countQuery = "SELECT COUNT(*) as total_count FROM leads WHERE user_id='$uid'";
 
     if (isset($_GET['source']) && $_GET['source'] != "") {
         $source = $_GET['source'];
         $query .= " AND source='$source'";
+        $countQuery .= " AND source='$source'";
     }
 
     if (isset($_GET['status']) && $_GET['status'] != "") {
         $status = $_GET['status'];
         $query .= " AND status='$status'";
+        $countQuery .= " AND status='$status'";
     }
 
     if (isset($_GET['search']) && $_GET['search'] != "") {
         $search = $_GET['search'];
         $query .= " AND (name LIKE '%$search%' OR email LIKE '%$search%' OR company LIKE '%$search%')";
+        $countQuery .= " AND (name LIKE '%$search%' OR email LIKE '%$search%' OR company LIKE '%$search%')";
     }
 
-    $query .= " LIMIT $offset,$limitPerPage";
+    // pagination
+    $query .= " LIMIT $limitPerPage OFFSET $offset";
 
     $result = mysqli_query($conn, $query);
-}
 
+    $countResult = mysqli_query($conn, $countQuery);
+    $total_count = mysqli_fetch_assoc($countResult)['total_count'];
+    $total_pages = ceil($total_count / $limitPerPage);
+}
 ?>
 
 <div class="d-flex">
@@ -191,18 +192,44 @@ if (isset($_GET['source']) || isset($_GET['status']) || isset($_GET['search'])) 
             <nav>
                 <ul class="pagination">
 
+                    <!-- Previous Button -->
+                    <li class="page-item <?php if ($page <= 1) {
+                                                echo 'disabled';
+                                            } ?>">
+                        <a class="page-link" href="?page=<?php echo $page - 1; ?>
+&status=<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>
+&source=<?php echo isset($_GET['source']) ? $_GET['source'] : ''; ?>
+&search=<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                            Previous
+                        </a>
+                    </li>
+
                     <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
 
-                        <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
-                            <a class="page-link" href="leads.php?page=<?php echo $i; ?>
-                                        &status=<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>
-                                        &source=<?php echo isset($_GET['source']) ? $_GET['source'] : ''; ?>
-                                    &search=<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>"> 
-<?php echo $i; ?>
+                        <li class="page-item <?php if ($page == $i) {
+                                                    echo 'active';
+                                                } ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>
+&status=<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>
+&source=<?php echo isset($_GET['source']) ? $_GET['source'] : ''; ?>
+&search=<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                                <?php echo $i; ?>
                             </a>
                         </li>
 
                     <?php } ?>
+
+                    <!-- Next Button -->
+                    <li class="page-item <?php if ($page >= $total_pages) {
+                                                echo 'disabled';
+                                            } ?>">
+                        <a class="page-link" href="?page=<?php echo $page + 1; ?>
+&status=<?php echo isset($_GET['status']) ? $_GET['status'] : ''; ?>
+&source=<?php echo isset($_GET['source']) ? $_GET['source'] : ''; ?>
+&search=<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                            Next
+                        </a>
+                    </li>
 
                 </ul>
             </nav>

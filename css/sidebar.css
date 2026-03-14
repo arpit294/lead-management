@@ -1,0 +1,55 @@
+/* Sidebar */
+
+.sidebar{
+width:220px;
+background:#1f2933;
+min-height:100vh;
+padding-top:20px;
+color:white;
+}
+
+/* Title */
+
+.sidebar-title{
+text-align:center;
+font-weight:600;
+margin-bottom:20px;
+color:#e5e7eb;
+}
+
+/* Menu Links */
+
+.sidebar a{
+display:flex;
+align-items:center;
+gap:10px;
+color:#cbd5e1;
+padding:12px 18px;
+text-decoration:none;
+font-size:15px;
+border-left:4px solid transparent;
+transition:0.2s;
+}
+
+/* Hover */
+
+.sidebar a:hover{
+background:#374151;
+color:white;
+border-left:4px solid #3b82f6;
+padding-left:22px;
+}
+
+/* Active page */
+
+.sidebar a.active{
+background:#374151;
+color:white;
+border-left:4px solid #3b82f6;
+}
+
+/* Icons */
+
+.sidebar i{
+font-size:18px;
+}

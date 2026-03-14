@@ -1,0 +1,65 @@
+body{
+background:#f5efe6;
+font-family:'Segoe UI', sans-serif;
+}
+
+/* dashboard cards */
+
+.stat-card{
+border:none;
+border-radius:12px;
+padding:20px;
+color:#2f2f2f;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.stat-card:hover{
+transform:translateY(-4px);
+}
+
+/* card colors */
+
+.bg-total{
+background:#e8d3b0;
+}
+
+.bg-new{
+background:#f1dfc5;
+}
+
+.bg-contacted{
+background:#e0c39a;
+}
+
+.bg-closed{
+background:#d4b084;
+color:white;
+}
+
+/* table style */
+
+.card{
+border:none;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.table thead{
+background:#f1dfc5;
+}
+
+.badge-status{
+background:#caa472;
+padding:6px 10px;
+border-radius:6px;
+}
+
+.card{
+border-radius:10px;
+}
+
+.card:hover{
+transform:translateY(-3px);
+transition:0.2s;
+}
